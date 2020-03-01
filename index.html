@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Matador de Monstros</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<div id="app">
+    <template v-if="jogoFinalizado">
+        <div class="sombra">
+            <div class="mensagem">
+                <h3 v-if="guerreiroVida == 0" class="mb-3 text-danger">Você está morto!</h3>
+                <h3 v-else class="mb-3 text-success">Você venceu!</h3>
+                <button @click="mudarJogando" class="btn btn-primary mx-3">COMEÇAR NOVO JOGO</button>
+            </div>
+        </div>
+    </template>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+                    <img src="assets/img/warrior.png" style="height: 200px">
+                    <div class="lifebar">
+                        <div class="life" :style="{ width: guerreiroVida + '%', backgroundColor: guerreiroCorVida }"></div>
+                    </div>
+                    <div class="text-center w-100">{{ guerreiroVida }}%</div>
+                </div>
+                
+                <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+                    <img src="assets/img/monster.png" style="height: 200px">
+                    <div class="lifebar">
+                        <div class="life" :style="{ width: monstroVida + '%', backgroundColor: monstroCorVida }"></div>
+                    </div>
+                    <div class="text-center w-100">{{ monstroVida }}%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <template v-if="jogando">
+                        <button @click="atacar" class="btn btn-danger mx-3">ATACAR</button>
+                        <button @click="especial" class="btn btn-warning mx-3">ESPECIAL</button>
+                        <button @click="curar" class="btn btn-success mx-3">CURAR</button>
+                        <button @click="mudarJogando" class="btn btn-dark mx-3">FUGIR</button>
+                    </template>
+                    <template v-else>
+                        <button @click="mudarJogando" class="btn btn-primary mx-3">COMEÇAR NOVO JOGO</button>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 ">
+                    <div v-for="log in logs" class="log" :style="{ backgroundColor: log.cor }">
+                        {{ log.mensagem }} {{ log.valor != '' ? log.valor : '' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
